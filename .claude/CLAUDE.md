@@ -61,6 +61,7 @@ dame-ai/                                           (repository root)
 - Add documentation to all public, protected, package private classes, methods and fields.
 - Use existing libraries when it saves 30 or more lines of code.
 - For diagrams use mermaid
+- Never perform git commit. Just tell me, that you think it would be a good time to do it.
 - **When reviewing:** Verify that there are
     - No cyclic dependencies between modules and packages
     - Classes are named according to specification/glossar
