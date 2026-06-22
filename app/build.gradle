@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories { mavenCentral() }
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation project(':rest')
+    implementation 'io.quarkus:quarkus-rest'
+    implementation 'io.quarkus:quarkus-rest-jackson'
+    implementation 'io.quarkus:quarkus-arc'
+
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // required by Gradle 9 for JUnit Platform test execution
+}
+
+// Integration tests live in src/integrationTest/java and run black-box as
+// @QuarkusIntegrationTest via the plugin-provided quarkusIntTest task (which depends on
+// quarkusBuild). Do NOT register a hand-rolled Test task — that would bypass the Quarkus
+// augmentation and the runtime would never start.
+sourceSets {
+    integrationTest {
+        compileClasspath += sourceSets.main.output + sourceSets.test.output
+        runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+tasks.named('test') { useJUnitPlatform() }
+tasks.named('check') { dependsOn 'quarkusIntTest' }
