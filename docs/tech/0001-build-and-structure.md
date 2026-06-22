@@ -119,8 +119,21 @@ Vite proxies `/api/*` requests to `http://localhost:8080` (configured in `vite.c
 |-----------|----------|--------|
 | Backend unit | `<module>/src/test/java/` | `./gradlew test` |
 | Backend integration | `app/src/integrationTest/java/` (`@QuarkusIntegrationTest`) | `./gradlew :app:quarkusIntTest` |
-| Frontend unit | `frontend/src/*.test.tsx` (Vitest) | `./gradlew :frontend:testFrontend` or `cd frontend && npm test` |
+| Frontend unit | `frontend/test/**/*.test.tsx` (Vitest) | `./gradlew :frontend:testFrontend` or `cd frontend && npm test` |
+| Frontend test type-check | `frontend/test` + `frontend/src` via `tsconfig.test.json` | `cd frontend && npm run test:types` |
 | E2E | `frontend/cypress/e2e/` (Cypress) | `cd frontend && npm run e2e` (needs server running) |
+
+Frontend production code (`frontend/src`) and unit tests (`frontend/test`) live in **separate
+directories**, mirroring the Java `src/main` vs `src/test` split. This separation is enforced
+mechanically, not just by convention:
+
+- `vite.config.ts` sets `test.include: ['test/**/*.{test,spec}.{ts,tsx}']`, so Vitest only
+  discovers tests under `frontend/test/` — a test accidentally placed in `src/` is silently not
+  run, which surfaces the mistake.
+- The production build (`tsc -b`, driven by `tsconfig.app.json` whose `include` is `["src"]`)
+  type-checks and bundles only `src/`; tests never enter the production artifact.
+- `tsconfig.test.json` type-checks the tests (plus the `src` they import) separately, run via
+  `npm run test:types`.
 
 ---
 

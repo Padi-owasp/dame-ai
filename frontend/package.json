@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:types": "tsc -p tsconfig.test.json --noEmit",
     "e2e": "cypress run"
   },
   "dependencies": {

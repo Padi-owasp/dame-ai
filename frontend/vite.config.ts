@@ -10,8 +10,11 @@ export default defineConfig({
     proxy: { '/api': 'http://localhost:8080' },
   },
   test: {
+    // Unit tests live in test/ (separate from production code in src/), mirroring
+    // the Java convention of src/main vs src/test.
+    include: ['test/**/*.{test,spec}.{ts,tsx}'],
     environment: 'jsdom',
     globals: true,
-    setupFiles: './src/setupTests.ts',
+    setupFiles: './test/setupTests.ts',
   },
 })
