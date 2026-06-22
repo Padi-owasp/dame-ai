@@ -8,7 +8,7 @@
 
 **Architecture:** Gradle multi-module. `:business` (plain CDI bean library) ← `:rest` (JAX-RS resources, library) ← `:app` (the only Quarkus-plugin module; assembles and runs the app). `:frontend` is a separate Gradle subproject (Vite + React + TypeScript) driven via the gradle-node-plugin; its production build is served by Quarkus as static resources from `META-INF/resources`. Library modules are Jandex-indexed so Quarkus discovers their beans/resources. Dependency direction is strictly `:app → :rest → :business`; no cycles.
 
-**Tech Stack:** Quarkus 3.36 (`quarkus-rest`, `quarkus-rest-jackson`, `quarkus-arc`), Java 17, Gradle 9.5.1 (wrapper — the version Quarkus 3.36 ships/tests against; Gradle 8.x is incompatible), JUnit 5 + AssertJ + RestAssured/Hamcrest (backend), React 18 + TypeScript + Vite 5, Vitest + Testing Library (frontend unit), Cypress (e2e).
+**Tech Stack:** Quarkus 3.36 (`quarkus-rest`, `quarkus-rest-jackson`, `quarkus-arc`), Java 17, Gradle 9.5.1 (wrapper — the version Quarkus 3.36 ships/tests against; Gradle 8.x is incompatible), JUnit 5 + AssertJ + RestAssured/Hamcrest (backend), React 19 + TypeScript + Vite 8, Vitest + Testing Library (frontend unit), Cypress (e2e).
 
 ## Global Constraints
 
@@ -832,7 +832,7 @@ git add docs .claude/CLAUDE.md implementation-progress/00001-project-scaffolding
 ## Definition of Done (Feature0001)
 
 - [x] `./gradlew clean build` is green (backend unit + integration tests, frontend build + unit tests).
-- [x] Cypress e2e passes against the running app (Task 6 Step 5).
+- [x] Cypress e2e passes against the running app (Task 6 Step 5 — verified in Task 6).
 - [x] Quarkus dev mode serves the React shell, which displays the backend status from `/api/health`.
 - [x] No module cycles; dependency direction `:app → :rest → :business` verified.
 - [x] `docs/tech/0001-build-and-structure.md` and `docs/glossar.md` exist; `CLAUDE.md` build commands are accurate.

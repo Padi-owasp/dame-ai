@@ -67,7 +67,7 @@ All JAX-RS resources use the `/api` path prefix (e.g. `@Path("/api/health")`). T
 
 ### `@QuarkusMain` Entry Point
 
-The `:app` module is the only subproject that applies the `io.quarkus` Gradle plugin. Quarkus generates a main entry point automatically via build-time augmentation. No explicit `@QuarkusMain` class is required for the scaffold; the plugin's augmented runner is the entry point.
+`:app` contains an explicit `@QuarkusMain` class `ai.dame.app.Application` that delegates to `Quarkus.run(args)`. While Quarkus can auto-generate a main entry point for standard JAR packaging, an explicit Java source file is required for `./gradlew :app:quarkusDev` to treat `:app` as a Java project in this Gradle multi-module setup. The entry point is therefore provided explicitly rather than relying on augmentation.
 
 ### Frontend Served as Static Resources (No Quinoa)
 
