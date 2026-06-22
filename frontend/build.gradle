@@ -1,0 +1,25 @@
+plugins {
+    id 'base'
+    id 'com.github.node-gradle.node' version '7.1.0'
+}
+
+node {
+    version = '20.19.0'
+    download = true
+}
+
+tasks.register('assembleFrontend', com.github.gradle.node.npm.task.NpmTask) {
+    dependsOn tasks.named('npmInstall')
+    args = ['run', 'build']
+    inputs.dir('src')
+    inputs.files('package.json', 'vite.config.ts', 'tsconfig.json', 'index.html')
+    outputs.dir(layout.projectDirectory.dir('dist'))
+}
+
+tasks.register('testFrontend', com.github.gradle.node.npm.task.NpmTask) {
+    dependsOn tasks.named('npmInstall')
+    args = ['run', 'test']
+}
+
+tasks.named('assemble') { dependsOn 'assembleFrontend' }
+tasks.named('check') { dependsOn 'testFrontend' }
