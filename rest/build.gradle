@@ -16,8 +16,8 @@ dependencies {
     implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-rest-jackson'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.3'
-    testImplementation 'org.assertj:assertj-core:3.26.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.assertj:assertj-core:3.26.3' // not managed by Quarkus BOM
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // required by Gradle 9 for JUnit Platform test execution
 }
 
