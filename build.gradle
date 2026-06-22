@@ -1,0 +1,5 @@
+// Root project: shared coordinates only. Each module applies its own plugins.
+allprojects {
+    group = 'ai.dame'
+    version = '0.1.0-SNAPSHOT'
+}

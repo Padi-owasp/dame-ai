@@ -1,0 +1,18 @@
+# Build output
+build/
+**/build/
+.gradle/
+.quarkus/
+
+# Frontend
+node_modules/
+frontend/dist/
+
+# Cypress artifacts
+frontend/cypress/videos/
+frontend/cypress/screenshots/
+
+# IDE / OS
+.idea/
+*.iml
+.DS_Store
