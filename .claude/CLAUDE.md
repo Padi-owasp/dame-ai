@@ -37,11 +37,11 @@ dame-ai/                                           (repository root)
 ├── app                 → :app                     Quarkus entry point
 ├── business            → :business                Business logic services
 ├── rest                → :rest                    REST controllers
-├── frontend            → :frontend                React SPA
+├── frontend            → :frontend                React SPA — production code in frontend/src, unit tests in frontend/test (Vitest), e2e in frontend/cypress
 ├── docs                                           Documentation for the current implementation (no gradle modules)
 │   ├──glossar.md                                  Glossar
-│   ├──handbook                                    End-user documentation
-│   ├──tech                                        Technical/ developer doku. It is structured by topic in different md.files- example: 00_DeveloperEnvironment.md, 10_Architecture.md, 20_DomainModel.md, 40_Api.md, 99_ArchitecturalDesicions.md)
+│   ├──handbook                                    End-user/Player documentation  
+│   ├──tech                                        Technical/developer docs, organized by topic as numbered Markdown files; see docs/tech/README.md for the current topics and conventions.
 │   └──business                                    Business functionality
 ├── backlog                                        Features to be implemented (no gradle module)
 │   └──Feature0001                                 Feature folder (can have n)
@@ -63,7 +63,7 @@ dame-ai/                                           (repository root)
 - Add documentation to all public, protected, package private classes, methods and fields.
 - Use existing libraries when it saves 30 or more lines of code.
 - For diagrams use mermaid
-- Never perform git commit. Just tell me, that you think it would be a good time to do it.
+- Never perform a merge into or a git commit to branches develop and main. Just tell me, that you think it would be a good time to do it.
 - **When reviewing:** Verify that there are
     - No cyclic dependencies between modules and packages
     - Classes are named according to specification/glossar

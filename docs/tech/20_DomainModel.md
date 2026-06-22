@@ -2,7 +2,7 @@
 
 > **Status:** stub. The checkers (Deutsche Dame) domain model is introduced from **Feature0002**
 > onward (board, squares, pieces, moves, capture/Schlagzwang rules, king/Dame). Domain terms are
-> defined in [../glossar.md](../glossar.md).
+> defined in [../glossar.md](../glossar.md). Should eventually contain diagram and description.
 
 ## Current model
 
