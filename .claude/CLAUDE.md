@@ -10,23 +10,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build & Run Commands
 
 ```bash
-# Build everything (backend + frontend)
+# Build everything (backend + frontend): compiles, unit tests, integration tests, frontend build+tests
 ./gradlew build
 
-# Run the Quarkus app in dev mode (hot reload)
+# Run the Quarkus app in dev mode (hot reload; also rebuilds frontend bundle)
 ./gradlew :app:quarkusDev
 
-# Run the React frontend dev server (from the frontend module)
+# Run the React frontend dev server with Vite hot-reload (proxies /api to :8080)
 cd frontend && npm install && npm run dev
 
-# Run all tests (backend)
+# Run backend unit tests only
 ./gradlew test
 
-# Run frontend tests / Cypress e2e
+# Run backend integration tests (builds artifact, launches app, tests over HTTP)
+./gradlew :app:quarkusIntTest
+
+# Run frontend tests / Cypress e2e (e2e requires the app to be running on :8080)
 cd frontend && npm test
 cd frontend && npm run e2e
 ```
-(to be updated when progressing with the project)
 
 ## Module Architecture
 
@@ -39,7 +41,7 @@ dame-ai/                                           (repository root)
 ├── docs                                           Documentation for the current implementation (no gradle modules)
 │   ├──glossar.md                                  Glossar
 │   ├──handbook                                    End-user documentation
-│   ├──tech                                        Technical/ developer doku
+│   ├──tech                                        Technical/ developer doku. It is structured by topic in different md.files- example: 00_DeveloperEnvironment.md, 10_Architecture.md, 20_DomainModel.md, 40_Api.md, 99_ArchitecturalDesicions.md)
 │   └──business                                    Business functionality
 ├── backlog                                        Features to be implemented (no gradle module)
 │   └──Feature0001                                 Feature folder (can have n)

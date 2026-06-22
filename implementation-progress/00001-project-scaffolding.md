@@ -1,5 +1,7 @@
 # Feature0001 — Project Scaffolding & Build Foundation — Implementation Plan
 
+**Status: DONE**
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Mark each item done in this file immediately after completing it.
 
 **Goal:** Stand up a buildable, runnable skeleton — Quarkus multi-module backend + React frontend — wired together by one vertical slice (a `/api/health` endpoint the frontend calls and displays), with unit / integration / e2e test infrastructure in place and `./gradlew build` green.
@@ -795,29 +797,29 @@ git add app frontend/cypress.config.ts frontend/cypress
 - Modify: `.claude/CLAUDE.md` (only if build commands drifted from reality)
 - Modify: this plan file (mark all items done)
 
-- [ ] **Step 1: Write the architecture decision record**
+- [x] **Step 1: Write the architecture decision record**
 
 `docs/tech/0001-build-and-structure.md` — record: the module graph (`:app → :rest → :business`, `:frontend` separate), why library modules use the Jandex plugin, that `:frontend` is a gradle-node-plugin subproject whose `dist` is served by Quarkus as static resources (no Quinoa), the `/api` prefix convention, dev workflow (Vite dev server on 5173 proxying `/api` to 8080, or `quarkusDev` serving the bundled build), the **Gradle 9.5.1 / Quarkus 3.36 pairing** (8.x is incompatible), and the test-folder convention — unit in `src/test/java`, integration as `@QuarkusIntegrationTest` in `src/integrationTest/java` run via `quarkusIntTest` (mapping the directive's "integration-test" concept onto the Quarkus convention), Cypress e2e in `frontend/cypress/e2e`. Use a mermaid module diagram.
 
-- [ ] **Step 2: Create the glossar stub**
+- [x] **Step 2: Create the glossar stub**
 
 `docs/glossar.md` — heading plus a note that domain terms (Stein/Man, Dame/King, Schlagzwang, …) are added from Feature0002 onward. Keeps the documented docs structure real.
 
-- [ ] **Step 3: Run the complete build**
+- [x] **Step 3: Run the complete build**
 
 Run: `./gradlew clean build`
 Expected: SUCCESS — compiles all backend modules, builds the frontend (`assembleFrontend`), runs backend unit tests, `:app:quarkusIntTest`, and `:frontend:testFrontend`, all green. (Cypress e2e is run separately per Task 6 Step 5, as it needs the app server running; note this in the ADR.)
 
-- [ ] **Step 4: Confirm no module cycles and correct dependency direction**
+- [x] **Step 4: Confirm no module cycles and correct dependency direction**
 
 Run: `./gradlew :app:dependencies --configuration runtimeClasspath`
 Expected: `:app` depends on `:rest` depends on `:business`; `:business` depends on neither; `:frontend` appears in no backend classpath.
 
-- [ ] **Step 5: Reconcile `CLAUDE.md` build commands with reality**
+- [x] **Step 5: Reconcile `CLAUDE.md` build commands with reality**
 
 Verify the commands in `.claude/CLAUDE.md` ("Build & Run Commands") match what now works (`./gradlew build`, `./gradlew :app:quarkusDev`, frontend `npm run dev` / `npm test`, Cypress run). Fix any drift.
 
-- [ ] **Step 6: Mark this plan finished — commit checkpoint**
+- [x] **Step 6: Mark this plan finished — commit checkpoint**
 
 Tick every checkbox in this file, add a `**Status: DONE**` line under the title. Then (developer performs the commit):
 ```bash
@@ -829,12 +831,12 @@ git add docs .claude/CLAUDE.md implementation-progress/00001-project-scaffolding
 
 ## Definition of Done (Feature0001)
 
-- [ ] `./gradlew clean build` is green (backend unit + integration tests, frontend build + unit tests).
-- [ ] Cypress e2e passes against the running app (Task 6 Step 5).
-- [ ] Quarkus dev mode serves the React shell, which displays the backend status from `/api/health`.
-- [ ] No module cycles; dependency direction `:app → :rest → :business` verified.
-- [ ] `docs/tech/0001-build-and-structure.md` and `docs/glossar.md` exist; `CLAUDE.md` build commands are accurate.
-- [ ] This plan is marked finished.
+- [x] `./gradlew clean build` is green (backend unit + integration tests, frontend build + unit tests).
+- [x] Cypress e2e passes against the running app (Task 6 Step 5).
+- [x] Quarkus dev mode serves the React shell, which displays the backend status from `/api/health`.
+- [x] No module cycles; dependency direction `:app → :rest → :business` verified.
+- [x] `docs/tech/0001-build-and-structure.md` and `docs/glossar.md` exist; `CLAUDE.md` build commands are accurate.
+- [x] This plan is marked finished.
 
 ## Self-Review Notes
 
