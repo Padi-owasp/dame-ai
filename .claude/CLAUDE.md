@@ -13,11 +13,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Build everything (backend + frontend)
 ./gradlew build
 
-# Run the Spring Boot app
-./gradlew :dame-ai:bootRun
+# Run the Quarkus app in dev mode (hot reload)
+./gradlew :app:quarkusDev
 
-# Run all tests
+# Run the React frontend dev server (from the frontend module)
+cd frontend && npm install && npm run dev
+
+# Run all tests (backend)
 ./gradlew test
+
+# Run frontend tests / Cypress e2e
+cd frontend && npm test
+cd frontend && npm run e2e
 ```
 (to be updated when progressing with the project)
 
@@ -28,7 +35,7 @@ dame-ai/                                           (repository root)
 ├── app                 → :app                     Quarkus entry point
 ├── business            → :business                Business logic services
 ├── rest                → :rest                    REST controllers
-├── frontend            → :frontend                REACT SPA
+├── frontend            → :frontend                React SPA
 ├── docs                                           Documentation for the current implementation (no gradle modules)
 │   ├──glossar.md                                  Glossar
 │   ├──handbook                                    End-user documentation
