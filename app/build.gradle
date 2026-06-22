@@ -40,3 +40,15 @@ configurations {
 
 tasks.named('test') { useJUnitPlatform() }
 tasks.named('check') { dependsOn 'quarkusIntTest' }
+
+// Bundle the built React app so Quarkus serves it from "/".
+// Static files under META-INF/resources are served at "/" by Quarkus.
+tasks.named('processResources') {
+    dependsOn ':frontend:assembleFrontend'
+    from(project(':frontend').layout.projectDirectory.dir('dist')) {
+        into 'META-INF/resources'
+    }
+}
+// Ensure the bundle is in place before Quarkus reads resources (dev run and packaging).
+tasks.named('quarkusDev') { dependsOn 'processResources' }
+tasks.named('quarkusBuild') { dependsOn 'processResources' }
