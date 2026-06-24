@@ -59,9 +59,73 @@ public final class MoveGenerator {
         return List.of();
     }
 
-    /** Capture generation is implemented in a later task. */
+    /**
+     * All maximal capture sequences for the piece on {@code from}. The moving piece is lifted
+     * off the board for the search; each captured piece is removed as the search advances, so a
+     * piece is never jumped twice and already-vacated squares are passable.
+     */
     private List<Move> capturesFrom(Board board, Square from, Piece piece) {
+        Board lifted = board.remove(from);
+        List<List<Square>> paths = new ArrayList<>();
+        searchCaptures(lifted, from, piece, new ArrayList<>(), paths);
+        List<Move> moves = new ArrayList<>();
+        for (List<Square> steps : paths) {
+            moves.add(new Move(from, steps));
+        }
+        return moves;
+    }
+
+    private void searchCaptures(Board board, Square current, Piece piece,
+            List<Square> steps, List<List<Square>> paths) {
+        List<int[]> immediate = immediateCaptures(board, current, piece);
+        if (immediate.isEmpty()) {
+            if (!steps.isEmpty()) {
+                paths.add(new ArrayList<>(steps)); // maximal chain reached
+            }
+            return;
+        }
+        for (int[] capture : immediate) {
+            Square captured = new Square(capture[0], capture[1]);
+            Square landing = new Square(capture[2], capture[3]);
+            steps.add(landing);
+            // The piece keeps its current type for the rest of the chain: a man passing through
+            // the back row mid-chain is NOT promoted and gains no Dame powers (see RulesEngine).
+            searchCaptures(board.remove(captured), landing, piece, steps, paths);
+            steps.remove(steps.size() - 1);
+        }
+    }
+
+    private List<int[]> immediateCaptures(Board board, Square from, Piece piece) {
+        return piece.isDame() ? dameCaptures(board, from, piece) : manCaptures(board, from, piece);
+    }
+
+    private List<int[]> manCaptures(Board board, Square from, Piece piece) {
+        List<int[]> captures = new ArrayList<>();
+        int forward = forwardDir(piece.color());
+        for (int dc : new int[] {-1, 1}) {
+            int midRow = from.row() + forward;
+            int midCol = from.col() + dc;
+            int landRow = from.row() + 2 * forward;
+            int landCol = from.col() + 2 * dc;
+            if (!isOnBoard(landRow, landCol)) {
+                continue;
+            }
+            Square mid = new Square(midRow, midCol);
+            Square landing = new Square(landRow, landCol);
+            if (isEnemy(board, mid, piece) && board.isEmpty(landing)) {
+                captures.add(new int[] {midRow, midCol, landRow, landCol});
+            }
+        }
+        return captures;
+    }
+
+    /** Dame captures are implemented in a later task. */
+    private List<int[]> dameCaptures(Board board, Square from, Piece piece) {
         return List.of();
+    }
+
+    private boolean isEnemy(Board board, Square square, Piece piece) {
+        return board.at(square).map(other -> other.color() != piece.color()).orElse(false);
     }
 
     private static int forwardDir(PlayerColor color) {
