@@ -8,6 +8,15 @@ package ai.dame.business.game;
  */
 public record Square(int row, int col) {
 
+    /**
+     * Canonical constructor for Square.
+     *
+     * @param row the row coordinate (0–7)
+     * @param col the column coordinate (0–7)
+     * @throws IllegalArgumentException if coordinates are off the board (outside 0–7 range)
+     *                                  or if the square is not dark (i.e., {@code (row + col)}
+     *                                  is even)
+     */
     public Square {
         if (row < 0 || row > 7 || col < 0 || col > 7) {
             throw new IllegalArgumentException("Square off the board: (" + row + ", " + col + ")");

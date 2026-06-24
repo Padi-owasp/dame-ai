@@ -12,6 +12,10 @@ class SquareTest {
         Square square = new Square(0, 1);
         assertThat(square.row()).isEqualTo(0);
         assertThat(square.col()).isEqualTo(1);
+
+        Square other = new Square(1, 0);
+        assertThat(other.row()).isEqualTo(1);
+        assertThat(other.col()).isEqualTo(0);
     }
 
     @Test
@@ -25,6 +29,10 @@ class SquareTest {
         assertThatThrownBy(() -> new Square(-1, 0))
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> new Square(8, 1))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Square(0, -1))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Square(1, 8))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
